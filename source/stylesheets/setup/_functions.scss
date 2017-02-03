@@ -1,0 +1,111 @@
+// COLOR MAP
+@function brand($palette, $tone: 'base') {
+  @return map-get(map-get($palettes, $palette), $tone);
+}
+
+// HELPERS
+@function strip-unit($num) {
+  @return $num / ($num * 0 + 1);
+}
+
+@function is-number($value) {
+  @return type-of($value) == 'number';
+}
+
+@function is-absolute-length($value) {
+  @return is-number($value) and index('cm' 'mm' 'in' 'px' 'pt' 'pc', unit($value)) != null;
+}
+
+@function is-integer($value) {
+  @return is-number($value) and round($value) == $value;
+}
+
+// CONVERT TO REM
+@function convert-to-rem($value, $base-value: $rem-base) {
+  $value: strip-unit($value) / strip-unit($base-value) * 1rem;
+  // sass-lint:disable zero-unit
+  @if ($value == 0rem) {
+    $value: 0;
+  } // Turn 0rem into 0
+  @return $value;
+}
+
+// REM CALC
+@function rem-calc($values, $base-value: $rem-base) {
+  $max: length($values);
+  @if $max == 1 {
+    @return convert-to-rem(nth($values, 1), $base-value);
+  }
+  $rem-values: ();
+  @for $i from 1 through $max {
+    $rem-values: append($rem-values, convert-to-rem(nth($values, $i), $base-value));
+  }
+  @return $rem-values;
+}
+
+// REM
+@function rem($values) {
+  @return rem-calc($values, 16);
+}
+
+
+// ----------------------------------------------------------------
+// BASELINE
+// ----------------------------------------------------------------
+@function baseline($list) {
+  $length: length($list);
+
+  @if $length == 1 {
+
+    // Check if single value is number
+    @if type-of($list) != number  {
+      @error "The value `#{$list}` is not a number";
+      @return false;
+    }
+
+    @if is-absolute-length($list) {
+      @error "Remove `px`, `em`, `ex` or any other sizing value";
+      @return false;
+    }
+
+    @if not is-integer($list) {
+      @error "Only use whole numbers";
+      @return false;
+    }
+
+    @return rem($list * 4);
+  }
+
+  @if $length > 4 {
+    @error 'Exceeded the maximum of 4 values';
+    @return false;
+  }
+
+  $new-list: ();
+
+  @if $length > 1 {
+    @for $i from 1 through $length {
+
+      // Check is list contains only numbers
+      @if type-of( nth($list, $i) ) != number {
+        @error "The value `#{nth($list, $i)}` is not a number";
+        @return false;
+      }
+
+      @if is-absolute-length( nth($list, $i) ) {
+        @error "Remove `px`, `em`, `ex` or any other sizing value. This is a multiplier of our $baseline";
+        @return false;
+      }
+
+      @if not is-integer( nth($list, $i) ) {
+        @error "Only use whole numbers";
+        @return false;
+      }
+
+      $rem: rem( nth($list, $i) * 4);
+      $new-list: append($new-list, $rem);
+    }
+
+    @return $new-list;
+  }
+}
