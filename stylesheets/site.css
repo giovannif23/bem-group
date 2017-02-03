@@ -364,54 +364,44 @@ textarea {
   font: inherit;
   /* 2 */ }
 
+html {
+  height: 100%;
+  font-size: 16px; }
+
 body {
-  background: #ECC561;
-  text-align: center;
-  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 1em; }
+  background: salmon;
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 1rem;
+  font-weight: 300;
+  height: 100%;
+  text-align: center; }
+
+a {
+  color: #27474E;
+  text-decoration: none;
+  border-bottom: 1px solid #27474E;
+  transition: all .2s ease-in-out;
+  transition-property: color, border-color; }
+  a:hover {
+    border-color: #1985A1;
+    color: #1985A1; }
 
 .logo img {
-  height: 18.75em;
-  margin-top: 6em; }
+  height: auto;
+  margin: 1rem; }
 
 h1 {
   color: rgba(0, 0, 0, 0.5);
-  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
   font-size: 1.8em;
   font-weight: 400;
   margin: 0; }
 
-.doc {
-  margin: 3em 0;
-  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 1.1em;
-  font-weight: 300; }
-  .doc a {
-    border: 1px solid white;
-    border-radius: 3px;
-    padding: 0.75em 0.7em;
-    color: white;
-    text-decoration: none;
-    transition: color 0.1s linear; }
-    .doc a:hover {
-      background: rgba(0, 0, 0, 0.2);
-      color: white;
-      transition: all 0.15s linear; }
-
 .welcome {
-  -webkit-animation-name: welcome;
-  -webkit-animation-duration: .9s; }
-
-@-webkit-keyframes welcome {
-  from {
-    -webkit-transform: scale(0);
-    opacity: 0; }
-  50% {
-    -webkit-transform: scale(0);
-    opacity: 0; }
-  82.5% {
-    -webkit-transform: scale(1.03);
-    -webkit-animation-timing-function: ease-out;
-    opacity: 1; }
-  to {
-    -webkit-transform: scale(1); } }
+  align-items: center;
+  display: flex;
+  flex: 1;
+  font-size: 1.25rem;
+  height: 100%;
+  justify-content: center;
+  flex-direction: column; }
